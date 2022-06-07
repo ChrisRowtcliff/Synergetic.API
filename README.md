@@ -1,7 +1,7 @@
 # Synergetic.API
 A .NET Core, Standard and Framework async implementation of the Synergetic API
 
-###Note: Only GET requests have been tested so far
+### Note: Only GET requests have been tested so far
 
 ## Usage
 
