@@ -16,7 +16,7 @@
                 .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)))
                 .Select(p => $"{WebUtility.UrlEncode(p.Name)}={WebUtility.UrlEncode(Convert.ToString(p.GetValue(requestEntity)))}");
 
-            return string.Join('&', parameters);
+            return string.Join("&", parameters);
         }
     }
 }

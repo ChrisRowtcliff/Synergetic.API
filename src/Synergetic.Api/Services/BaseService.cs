@@ -64,17 +64,17 @@
                 }
             }
 
-            using var responseStream = await response.Content.ReadAsStreamAsync();
-
-            if (!response.IsSuccessStatusCode)
+            using (var responseStream = await response.Content.ReadAsStreamAsync())
             {
-                var error = await JsonSerializer.DeserializeAsync<Error>(responseStream);
-                throw new SynergeticApiException(error.Message);
-            };
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = await JsonSerializer.DeserializeAsync<Error>(responseStream);
+                    throw new SynergeticApiException(error.Message);
+                };
 
-            var returnObject = await JsonSerializer.DeserializeAsync<U>(responseStream);
-
-            return returnObject;
+                var returnObject = await JsonSerializer.DeserializeAsync<U>(responseStream);
+                return returnObject;
+            }
         }
     }
 }
