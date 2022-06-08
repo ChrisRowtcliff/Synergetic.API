@@ -52,7 +52,7 @@
 
             if (string.IsNullOrEmpty(clientSecret))
             {
-                throw new SynergeticApiException("clientSecret is required");
+                throw new SynergeticApiException("Client Secret is required");
             }
 
             if (string.IsNullOrEmpty(url))

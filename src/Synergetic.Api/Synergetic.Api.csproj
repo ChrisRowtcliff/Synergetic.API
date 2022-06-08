@@ -9,7 +9,7 @@
 	  <PackageProjectUrl>https://github.com/ChrisRowtcliff/Synergetic.API/</PackageProjectUrl>
 	  <Description>An .NET Core, Standard and Framework async implementation of the Synergetic API (Unofficial library)</Description>
 	  <Authors>ChrisRowtcliff</Authors>
-	  <PackageTags>Synergetic</PackageTags>
+	  <PackageTags>Synergetic; SynAPI</PackageTags>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <Version>$(VersionPrefix)-alpha</Version>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
