@@ -1,6 +1,8 @@
 # Synergetic.API
 A .NET Core, Standard and Framework async implementation of the Synergetic API.
-The API has been developed against the API at Synergetic version 70.16.1
+The API has been developed against the API at Synergetic version 70.16.1.
+
+This is an unnoffical library.
 
 Synergetic API developer documentation can be found at https://developer.synergetic.net.au/
 
@@ -23,7 +25,8 @@ SynergeticClient.Initialise("{ClientId}", "{ClientSecret}", "{SynergeticAPIUrl}"
 You do not need to call the AcquireToken method (below) when doing this.
 
 #### Manually acquiring a token
-There may be times where you want to control the timing of the extra network hop when acquiring a token. By default, the API client automatically acquires a token, or refreshes it if it has expired.
+There may be times where you want to control the timing of the extra network call when acquiring a token. By default, the API client automatically acquires a token, or refreshes it if it has expired. To change this behaviour, set automaticallyAcquireToken to 'false'.
+
 For a web application, call the following code in Startup.cs
 
 ```` 
@@ -40,14 +43,14 @@ SynergeticClient.AcquireToken();
 Once you have initialised the client, you can query the Synergetic API by creating an instance of the appropiate service and using the Get/Create/Update methods.
 
 Current services available are:
-* LookupTableService
-* StudentService
-* StudentAllergyService
-* StudentContactsService
-* StudentResultsService
-* MedicalConditionsService
-* MedicalDetailsService
-* MedicalImmunisationsService
+* [LookupTableService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/LookupTables/LookupTableService.cs)
+* [StudentService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/Students/StudentService.cs)
+* [StudentAllergyService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/StudentAllergies/StudentAllergyService.cs)
+* [StudentContactsService](https://github.com/ChrisRowtcliff/Synergetic.API/tree/main/src/Synergetic.Api/Services/StudentContacts)
+* [StudentResultsService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/StudentResults/StudentResultsService.cs)
+* [MedicalConditionsService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/MedicalConditions/MedicalConditionsService.cs)
+* [MedicalDetailsService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/MedicalDetails/MedicalDetailsService.cs)
+* [MedicalImmunisationsService](https://github.com/ChrisRowtcliff/Synergetic.API/blob/main/src/Synergetic.Api/Services/MedicalImmunisations/MedicalImmunisations.cs)
 
 
 #### Querying the API
