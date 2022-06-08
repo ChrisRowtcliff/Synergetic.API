@@ -17,7 +17,7 @@
         internal static Token AuthToken { get; set; }
         internal static string ApiVersion { get; set; }
         internal static string ClientVersion { get; set; }
-        internal static bool AutomaticallyAcquireToken = false;
+        internal static bool AutomaticallyAcquireToken = true;
         private static Guid ClientId;
         private static string ClientSecret;
         private static string TokenUrl;
@@ -133,7 +133,9 @@
         internal static bool IsTokenValid()
         {
             if (AuthToken == null)
+            {
                 return false;
+            }                
 
             if (AuthToken.Expires.ToUniversalTime() < DateTime.UtcNow)
             {
@@ -141,7 +143,9 @@
             }
 
             if (string.IsNullOrEmpty(AuthToken.AccessToken))
+            {
                 return false;
+            }
 
             return true;
         }
