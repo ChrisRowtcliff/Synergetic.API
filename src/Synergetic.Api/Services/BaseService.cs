@@ -30,6 +30,20 @@
 
             HttpResponseMessage response = null;
 
+            //Check for valid token before the network request
+            if (!SynergeticClient.IsTokenValid())
+            {
+                //automatically acquire it if it is not valid
+                if (SynergeticClient.AutomaticallyAcquireToken)
+                {
+                    await SynergeticClient.AquireToken();
+                }
+                else
+                {
+                    throw new SynergeticApiException("AuthToken has not been acquired, or has expired.");
+                }
+            }
+
             if (method == HttpMethod.Get || method == HttpMethod.Delete)
             {
                 if (data != null)

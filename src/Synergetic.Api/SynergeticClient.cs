@@ -17,6 +17,11 @@
         internal static Token AuthToken { get; set; }
         internal static string ApiVersion { get; set; }
         internal static string ClientVersion { get; set; }
+        internal static bool AutomaticallyAcquireToken = false;
+        private static Guid ClientId;
+        private static string ClientSecret;
+        private static string TokenUrl;
+        private static string Url;
 
         internal static JsonSerializerOptions JsonSerialiserOptions = new JsonSerializerOptions
         {
@@ -24,7 +29,7 @@
             WriteIndented = true,
         };
 
-        /// <summary>Initialises a new Synergetic Client and requests an authentication token.</summary>
+        /// <summary>Initialises a new Synergetic Client</summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="clientSecret">The client secret.</param>
         /// <param name="url">The URL.</param>
@@ -40,7 +45,7 @@
         /// or
         /// url must use HTTPS scheme
         /// </exception>
-        public static async Task Initialise(Guid clientId, string clientSecret, string url, int version = 1)
+        public static void Initialise(Guid clientId, string clientSecret, string url, int version = 1, bool automaticallyAcquireToken = false)
         {
             if (clientId == Guid.Empty)
                 throw new SynergeticApiException("Client ID cannot be a blank GUID");
@@ -59,41 +64,40 @@
             {
                 throw new SynergeticApiException("Version number cannot be less than 1");
             }
-
-            ApiVersion = $"v{version}";
-            ClientVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            await AquireToken(clientId, clientSecret, url);
-            ApiClient = new HttpClient();
+            AutomaticallyAcquireToken = automaticallyAcquireToken;
+            ClientId = clientId;
+            ClientSecret = clientSecret;
 
             if (!url.EndsWith("/")) //Base uri must end with a trailing /
                 url = url + "/";
 
+            TokenUrl = url;
             url = url + "api/";
+            Url = url;
 
-            var baseUri = new Uri(url);
+            ApiVersion = $"v{version}";
+            ClientVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            ApiClient = new HttpClient();
+
+
+            var baseUri = new Uri(Url);
             if (baseUri.Scheme != "https")
             {
                 throw new SynergeticApiException("url must use HTTPS scheme");
             }
             ApiClient.BaseAddress = baseUri;
             ApiClient.DefaultRequestHeaders.Add("ContentType", "application/json");
-
             ApiClient.DefaultRequestHeaders.Add("User-Agent", $"{Constants.UAString} {ClientVersion}");
-
-            var authorisationHeader = $"Bearer {AuthToken.AccessToken}";
-            ApiClient.DefaultRequestHeaders.Add("Authorization", authorisationHeader);
         }
 
-        private static async Task AquireToken(Guid clientId, string clientSecret, string url)
+        public static async Task AquireToken()
         {
             TokenClient = new HttpClient(); //Keep this for when we need to reaquire expired tokens
                                             //has to be different from main Api client as the token endpoint behaves differently to every other endpoint
 
-            if (!url.EndsWith("/")) //Base uri must end with a trailing '/'
-                url = url + "/";
-
-            var baseUri = new Uri(url);
+            var baseUri = new Uri(TokenUrl);
             if (baseUri.Scheme != "https") //perform HTTPS check
             {
                 throw new SynergeticApiException("url must be https");
@@ -105,7 +109,7 @@
             //Get Auth Token
             var requestUrl = $"token";
             var authRequestContent = new StringContent(
-                       $"grant_type=client_credentials&client_id={clientId}&client_secret={clientSecret}",
+                       $"grant_type=client_credentials&client_id={ClientId}&client_secret={ClientSecret}",
                        Encoding.UTF8);
 
             var response = await TokenClient.PostAsync(requestUrl, authRequestContent);
@@ -115,6 +119,8 @@
                 if (response.IsSuccessStatusCode)
                 {
                     AuthToken = await JsonSerializer.DeserializeAsync<Token>(responseStream, JsonSerialiserOptions);
+                    var authorisationHeader = $"Bearer {AuthToken.AccessToken}";
+                    ApiClient.DefaultRequestHeaders.Add("Authorization", authorisationHeader);
                 }
                 else
                 {
@@ -122,6 +128,22 @@
                     throw new SynergeticApiException(error.Message ?? "An unknown error occured");
                 }
             }
+        }
+
+        internal static bool IsTokenValid()
+        {
+            if (AuthToken == null)
+                return false;
+
+            if (AuthToken.Expires.ToUniversalTime() < DateTime.UtcNow)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(AuthToken.AccessToken))
+                return false;
+
+            return true;
         }
     }
 }

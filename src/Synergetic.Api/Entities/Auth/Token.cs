@@ -1,5 +1,7 @@
 ﻿namespace Synergetic.Api.Entities.Auth
 {
+    using Synergetic.Api.Json.Serialisers;
+    using System;
     using System.Text.Json.Serialization;
 
     internal class Token
@@ -17,9 +19,13 @@
         public string RefreshToken { get; set; }
 
         [JsonPropertyName(".issued")]
-        public string Issued { get; set; }
-
+        [JsonConverter(typeof(TokenDateTimeConverter))]
+        public DateTime Issued { get; set; }
+        
         [JsonPropertyName(".expires")]
-        public string Expires { get; set; }
+        [JsonConverter(typeof(TokenDateTimeConverter))]
+        public DateTime Expires { get; set; }
+
+     
     }
 }
