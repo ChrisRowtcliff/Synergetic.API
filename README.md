@@ -43,7 +43,7 @@ SynergeticClient.Initialise("{ClientId}", "{ClientSecret}", "{SynergeticAPIUrl}"
 Next acquire a token to use for subsiquent API calls
 
 ```` 
-SynergeticClient.AcquireToken(); 
+await SynergeticClient.AcquireToken(); 
 ````
 
 ### Using the API
