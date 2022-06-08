@@ -8,6 +8,13 @@ Synergetic API developer documentation can be found at https://developer.synerge
 
 ### Note: Only GET requests have been tested so far
 
+## Installation
+
+The pre-release (alpha) package can be installed from NuGet
+
+````
+Install-Package Synergetic.Api -Version 0.0.1-alpha
+````
 
 ## Usage
 
