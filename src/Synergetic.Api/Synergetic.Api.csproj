@@ -7,7 +7,7 @@
 	  <FileVersion>$(VersionPrefix)</FileVersion>
 	  <VersionPrefix>0.0.1</VersionPrefix>
 	  <PackageProjectUrl>https://github.com/ChrisRowtcliff/Synergetic.API/</PackageProjectUrl>
-	  <Description>A .NET Core, Standard and Framework async implementation of the Synergetic API</Description>
+	  <Description>An .NET Core, Standard and Framework async implementation of the Synergetic API (Unofficial library)</Description>
 	  <Authors>ChrisRowtcliff</Authors>
 	  <PackageTags>Synergetic</PackageTags>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
