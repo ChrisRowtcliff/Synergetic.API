@@ -45,7 +45,7 @@
         /// or
         /// url must use HTTPS scheme
         /// </exception>
-        public static void Initialise(Guid clientId, string clientSecret, string url, int version = 1, bool automaticallyAcquireToken = false)
+        public static void Initialise(Guid clientId, string clientSecret, string url, int version = 1, bool automaticallyAcquireToken = true)
         {
             if (clientId == Guid.Empty)
                 throw new SynergeticApiException("Client ID cannot be a blank GUID");

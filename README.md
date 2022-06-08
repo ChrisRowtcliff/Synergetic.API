@@ -11,12 +11,29 @@ Synergetic API developer documentation can be found at https://developer.synerge
 
 ### Initialisation
 Before you can use the Synergetic API client, you first need to configure it in your application.
-This only has to be done once and calls the token issuance endpoint.
 
+#### Automatically acquiring a token
+By default, the API client to automatically acquires the token if it has not previously been acquired, or has expired.
 For a web application, call the following code in Startup.cs
 
 ```` 
-await SynergeticClient.Initialise("{ClientId}", "{ClientSecret}", "{SynergeticAPIUrl}"); 
+SynergeticClient.Initialise("{ClientId}", "{ClientSecret}", "{SynergeticAPIUrl}"); 
+````
+
+You do not need to call the AcquireToken method (below) when doing this.
+
+#### Manually acquiring a token
+There may be times where you want to control the timing of the extra network hop when acquiring a token. By default, the API client automatically acquires a token, or refreshes it if it has expired.
+For a web application, call the following code in Startup.cs
+
+```` 
+SynergeticClient.Initialise("{ClientId}", "{ClientSecret}", "{SynergeticAPIUrl}", automaticallyAcquireToken: false); 
+````
+
+Next acquire a token to use for subsiquent API calls
+
+```` 
+SynergeticClient.AcquireToken(); 
 ````
 
 ### Using the API
