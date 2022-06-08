@@ -82,4 +82,18 @@ var results = studentService.Create(allergies);
 
 ```
 
-These methods will return an 'EntityResult' object.
+The API wrapper also allows only one item to be create/updated:
+
+```
+using Synergetic.Api.Services.StudentAllergies;
+
+var studentAllergyService = new StudentAllergyService();
+
+var allergy = new CreateStudentAllergyRequest(){ ... }
+
+var result = studentService.Create(allergy);
+
+```
+
+
+These methods will return a list of EntityResult object if more than one object is passed, or a single EntityResult if only one object is passed.
