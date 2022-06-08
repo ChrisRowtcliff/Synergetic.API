@@ -2,7 +2,7 @@
 A .NET Core, Standard and Framework async implementation of the Synergetic API.
 The API has been developed against the API at Synergetic version 70.16.1.
 
-This is an unnoffical library.
+This is an unoffical library.
 
 Synergetic API developer documentation can be found at https://developer.synergetic.net.au/
 
