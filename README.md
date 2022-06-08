@@ -10,7 +10,7 @@ Synergetic API developer documentation can be found at https://developer.synerge
 ## Usage
 
 ### Initialisation
-Before you can use the Synergetic API client, you first need to configure it in your application.
+Before you can use the Synergetic API client, you first need to configure it in your application. This only has to be done once.
 
 #### Automatically acquiring a token
 By default, the API client to automatically acquires the token if it has not previously been acquired, or has expired.
